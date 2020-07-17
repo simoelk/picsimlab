@@ -37,9 +37,10 @@
 //#ifdef _EXPERIMENTAL_
 #include"board_6.h"
 #include"board_7.h"
+#include"board_8.h"
 #include"board_x.h"
 //number of last board
-#define BOARDS_LAST 9
+#define BOARDS_LAST 10
 //#else
 //number of last board
 //#define BOARDS_LAST 6

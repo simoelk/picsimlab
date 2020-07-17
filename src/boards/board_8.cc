@@ -88,7 +88,7 @@ cboard_8::get_out_id(char * name)
 
 cboard_8::cboard_8(void)
 {
- Proc = "PIC16F1619"; //default microcontroller if none defined in preferences
+ Proc = "PIC18F27K40"; //default microcontroller if none defined in preferences
  ReadMaps (); //Read input and output board maps
  jmp[0] = 0;
 
@@ -199,7 +199,7 @@ cboard_8::cboard_8(void)
  label3->SetHeight (20);
  label3->SetEnable (1);
  label3->SetVisible (1);
- label3->SetText (lxT ("RA4"));
+ label3->SetText (lxT ("RA5"));
  label3->SetAlign (1);
  Window1.CreateChild (label3);
  //label4
