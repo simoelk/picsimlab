@@ -31,7 +31,8 @@
 void
 board_pic::MSetSerial(const char * port)
 {
- pic_set_serial (&pic, port, 0, 0, 0);
+ pic_set_serial (&pic,0, port, 0, 0, 0);
+ pic_set_serial (&pic,1, "", 0, 0, 0);
 }
 
 int
@@ -49,40 +50,45 @@ board_pic::MInit(const char * processor, const char * fname, float freq)
  int ret = pic_init (&pic, procn, fname, 1, freq);
 
  //disable DEBUG
- switch(pic.processor)
+  if ((pic.processor == getprocbyname ("PIC16F1619")) ||
+     (pic.processor == getprocbyname ("PIC16F1788")) ||
+     (pic.processor == getprocbyname ("PIC16F1789")) ||
+     (pic.processor == getprocbyname ("PIC16F1939")))
   {
-  case P16F1619: 
-  case P16F1788:
-  case P16F1789: 
-  case P16F1939:
-     pic.config[1] |= 0x0100; 
-     break;
-  case P16F18324:   
-  case P16F18855:
-     pic.config[1] |= 0x0200;
-     break;
-  case P16F628A:
-  case P16F648A:
-  case P16F84A:
-  case P16F777:
-  case P16F877A: 
-     pic.config[0] |= 0x0800; 
-     break;
-  case P18F452:
-  case P18F4520:
-  case P18F4550:
-  case P18F45K50:
-  case P18F4620: 
-     pic.config[3] |= 0x0080;
-     break;
-  case P18F27K40:  
-  case P18F47K40: 
-     pic.config[1] |= 0x2000;
-     break;
-  default:
-     break;   
+   pic.config[1] |= 0x0100;
   }
- 
+ else if ((pic.processor == getprocbyname ("PIC16F18324")) ||
+          (pic.processor == getprocbyname ("PIC16F18855")))
+  {
+   pic.config[1] |= 0x0200;
+  }
+ else if ((pic.processor == getprocbyname ("PIC16F628A")) ||
+          (pic.processor == getprocbyname ("PIC16F648A")) ||
+          (pic.processor == getprocbyname ("PIC16F84A")) ||
+          (pic.processor == getprocbyname ("PIC16F777")) ||
+          (pic.processor == getprocbyname ("PIC16F877A")))
+  {
+   pic.config[0] |= 0x0800;
+  }
+ else if ((pic.processor == getprocbyname ("PIC18F452")) ||
+          (pic.processor == getprocbyname ("PIC18F4520")) ||
+          (pic.processor == getprocbyname ("PIC18F4550")) ||
+          (pic.processor == getprocbyname ("PIC18F45K50")) ||
+          (pic.processor == getprocbyname ("PIC18F4620")))
+  {
+   pic.config[3] |= 0x0080;
+  }
+ else if ((pic.processor == getprocbyname ("PIC18F27K40")) ||
+          (pic.processor == getprocbyname ("PIC18F47K40")))
+  {
+   pic.config[1] |= 0x2000;
+  }
+ else
+  {
+   printf ("PIC 0x%04X not supported in picsimlab!!\n", pic.processor);
+   exit (-1);
+  }
+
  pic.pins = (picpin*) realloc (pic.pins, sizeof (picpin)*256);
 
  return ret;
